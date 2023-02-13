@@ -22,6 +22,8 @@ func TestCompute(t *testing.T) {
 		{"1.0/2.0", "0.5"},
 	}
 	
+	// {in, out}
+	
 	for _, test := range computeTests {
 		s, err := Compute(test.in)
 		if err != nil {
