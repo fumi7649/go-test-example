@@ -1,10 +1,7 @@
 package calc
 
 import (
-	"fmt"
-	"strconv"
 	"testing"
-	"testing/quick"
 )
 
 // func TestCompute(t *testing.T) {
@@ -39,20 +36,42 @@ import (
 // 	}
 // }
 
-func TestCompu(t *testing.T) {
-	add := func(a, b int16) bool {
-		s, err := Compute(fmt.Sprintf("%d+%d", a, b))
-		if err != nil {
-			t.Fatal(err)
-		}
-		expected := strconv.Itoa((int(a)+int(b)))
-		if s != expected {
-			t.Logf("Compute(%d+%d) = %s, want %s", a, b, s, expected)
-			return false
-		}
-		return true
-	}
-	if err := quick.Check(add, nil); err != nil {
+// func TestCompu(t *testing.T) {
+// 	add := func(a, b int16) bool {
+// 		s, err := Compute(fmt.Sprintf("%d+%d", a, b))
+// 		if err != nil {
+// 			t.Fatal(err)
+// 		}
+// 		expected := strconv.Itoa((int(a)+int(b)))
+// 		if s != expected {
+// 			t.Logf("Compute(%d+%d) = %s, want %s", a, b, s, expected)
+// 			return false
+// 		}
+// 		return true
+// 	}
+// 	if err := quick.Check(add, nil); err != nil {
+// 		t.Fatal(err)
+// 	}
+// }
+
+func TestComput(t *testing.T) {
+	t.Run("add sub", func(t *testing.T) {
+		testCompute(t, "1+1", "2")
+		testCompute(t, "-2+1", "-1")
+	})
+	
+	t.Run("div", func(t *testing.T) {
+		testCompute(t, "1.0/2.0", "0.5")
+		testCompute(t, "2.0/1.0", "2")
+	})
+}
+
+func testCompute(t *testing.T, in, expected string) {
+	s, err := Compute(in)
+	if err != nil {
 		t.Fatal(err)
+	}
+	if s != expected {
+		t.Errorf("Compute(%s) = %s, want %s", in, s, expected)
 	}
 }
